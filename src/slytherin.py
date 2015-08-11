@@ -1,7 +1,6 @@
 import os
 import argparse
 import re
-import config
 import regex_cases
 
 
@@ -36,10 +35,18 @@ def camel_to_snake(val):
     return tmp.lower()
 
 
+def alter_filename(name):
+    directoryList = name.split('/')
+    name = directoryList.pop()
+    name = "converted-" + name.lower()
+    directoryList.append(name)
+    return "/".join(directoryList)
+
+
 def convert_file(val):
     global args
     val = re.sub(regex_cases.camel_case, camel_to_snake, val)
-    f = open(args.filename, 'w')
+    f = open(alter_filename(args.filename), 'w')
     f.write(val)
     f.close()
 
